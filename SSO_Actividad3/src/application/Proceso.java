@@ -184,13 +184,14 @@ public class Proceso implements Runnable{
 		}
 
 		while(estado != Estado.TERMINADO ){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+			
 			nanosegTranscurridos = reloj.tiempo();
 			if(reloj.segundos() >= tiempoEstimado){
 				estado = Estado.TERMINADO;
-			}else if(estado == Estado.BLOQUEADO ){
-				bloqueado.inicio();
-				break;
-			} else if( estado == Estado.ERROR){
+			}else if(estado == Estado.BLOQUEADO || estado == Estado.ERROR){
 				break;
 			}
 		}
@@ -199,13 +200,17 @@ public class Proceso implements Runnable{
 	public void setEstado(Estado estado) {
 		if(this.estado != Estado.TERMINADO){
 			this.estado = estado;
+			
+			if(this.estado == Estado.BLOQUEADO){
+				bloqueado.inicio();
+			}
 		}
 	}
 
 	public void setTiempoFinalizacion(long tiempoFinalizacion) {
 		this.tiempoFinalizacion = tiempoFinalizacion;
 	}
-
+	
 	public void setTiempoLlegada(long tiempoLlegada) {
 		this.tiempoLlegada = tiempoLlegada;
 		respuesta.inicio();

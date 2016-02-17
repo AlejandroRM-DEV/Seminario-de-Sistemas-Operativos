@@ -6,7 +6,7 @@ public class Tiempo{
 	private long inicio;
 	
 	public Tiempo() {
-		inicio = 0;
+		inicio = System.nanoTime();
 	}
 
 	public void inicio(){

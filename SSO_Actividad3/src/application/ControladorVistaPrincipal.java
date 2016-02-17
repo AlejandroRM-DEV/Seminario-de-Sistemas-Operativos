@@ -98,7 +98,7 @@ public class ControladorVistaPrincipal{
 				while (!terminado) {
 					if(!pausar){
 						pausar = true;
-
+						
 						if(cambioContexto){
 							procesoActual.setEstado(Estado.BLOQUEADO);
 							procesosBloqueados.add(procesoActual);
@@ -126,13 +126,17 @@ public class ControladorVistaPrincipal{
 								txtReloj.setText(total);
 								txtTiempoTranscurrido.setText(transcurrido);
 								txtTiempoRestante.setText(restante);
+							});
+						}
+						if(!terminado){
+							Platform.runLater(()->{
 								datosTablaBloqueados.setAll(bloqueados);
 								datosTablaListos.setAll(listos);
 							});
 						}
 						
 						for(Proceso p: bloqueados){
-							if(p.getTiempoBloqueado() >= 8){
+							if(p.getTiempoBloqueado() >= 8 || (p.getEstado() != Estado.BLOQUEADO) ){
 								procesosListos.add(p);
 								procesosBloqueados.remove(p);
 							}
@@ -254,7 +258,7 @@ public class ControladorVistaPrincipal{
 			finalizar();
 			return;
 		}
-
+		
 		rellenaCampos(Integer.toString(procesoActual.getId()), 
 				String.valueOf(procesoActual.getOperacion()), 
 				Double.toString(procesoActual.getArgA()), 
