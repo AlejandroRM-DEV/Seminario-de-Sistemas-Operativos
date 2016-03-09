@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="1170.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControladorVistaPrincipal">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Control">
+            <items>
+              <MenuItem fx:id="ejecutar" mnemonicParsing="false" onAction="#ejecutar" text="Ejecutar" />
+                  <MenuItem mnemonicParsing="false" onAction="#estadisticas" text="Estadisticas" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1050.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="25.0" prefWidth="230.0" text="Número de procesos en cola de nuevos:" />
+            <TextField fx:id="txtPendientes" editable="false" prefHeight="25.0" prefWidth="100.0" />
+            <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="100.0" text="Quantum:" />
+            <TextField fx:id="txtQuantum" editable="false" prefHeight="25.0" prefWidth="75.0" />
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <SplitPane dividerPositions="0.33, 0.6, 0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="1170.0">
+        <items>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="300.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="400.0" style="-fx-background-color: LIGHTBLUE;" text="Cola de listos" textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tablaListos" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" VBox.vgrow="NEVER">
+                     <columns>
+                        <TableColumn fx:id="columnaIDListo" editable="false" maxWidth="55.0" minWidth="55.0" prefWidth="55.0" resizable="false" sortable="false" text="ID" />
+                        <TableColumn fx:id="columnaTiempoEstimado" editable="false" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false" sortable="false" text="Tiempo Estimado" />
+                        <TableColumn fx:id="columnaTiempoRestante" editable="false" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false" sortable="false" text="Tiempo Restante" />
+                     </columns></TableView>
+               </children>
+            </VBox>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="350.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="400.0" style="-fx-background-color: LIGHTGREEN;" text="Proceso en ejecución" textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="183.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="135.0" minWidth="10.0" prefWidth="97.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Operación:" GridPane.rowIndex="3" />
+                        <Label text="Tiempo máximo estimado:" GridPane.rowIndex="4" />
+                        <Label text="Número de programa:" />
+                        <Label text="Tiempo transcurrido de ejecución:" GridPane.rowIndex="5" />
+                        <Label text="Tiempo restante por ejecutar:" GridPane.rowIndex="6" />
+                        <TextField fx:id="txtOperacion" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtTiempoEstimado" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtNumeroPrograma" editable="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="txtTiempoTranscurrido" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="txtTiempoRestante" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label text="Operador 1:" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtOpA" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Operador 2:" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtOpB" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: YELLOW;" text="Cola de bloqueados" textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tablaBloqueados" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                     <columns>
+                        <TableColumn fx:id="columnaIDBloqueado" editable="false" maxWidth="55.0" minWidth="55.0" prefWidth="55.0" resizable="false" sortable="false" text="ID" />
+                        <TableColumn fx:id="columnaTiempoTranscurrido" editable="false" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" resizable="false" sortable="false" text="Tiempo Transcurrido" />
+                     </columns>
+                  </TableView>
+               </children>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </VBox>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="300.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="300.0" style="-fx-background-color: ORANGE;" text="Procesos terminados" textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tablaTerminados" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" VBox.vgrow="NEVER">
+                     <columns>
+                        <TableColumn fx:id="columnaIDTerminado" editable="false" maxWidth="55.0" minWidth="55.0" prefWidth="55.0" resizable="false" sortable="false" text="ID" />
+                        <TableColumn fx:id="columnaOperacion" editable="false" maxWidth="240.0" minWidth="240.0" prefWidth="240.0" resizable="false" sortable="false" text="Operación" />
+                     </columns></TableView>
+               </children>
+            </VBox>
+        </items>
+      </SplitPane>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1200.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="25.0" prefWidth="100.0" text="Reloj global:" />
+            <TextField fx:id="txtReloj" editable="false" prefHeight="25.0" prefWidth="100.0" />
+            <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" text="Quantum contador:" />
+            <TextField fx:id="txtQuantumContador" editable="false" prefHeight="25.0" prefWidth="75.0" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>
