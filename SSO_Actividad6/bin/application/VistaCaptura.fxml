@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControladorVistaCaptura">
+   <children>
+      <VBox alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="550.0" prefWidth="730.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="1040.0" style="-fx-background-color: LIGHTBLUE;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="80.0" text="Productor" />
+                  <TextField fx:id="txtProductor" editable="false" prefHeight="25.0" prefWidth="160.0">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Label text="Tiempo restante" />
+                  <TextField fx:id="txtProductorRestante">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="1040.0" style="-fx-background-color: YELLOW;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="80.0" text="Consumidor" />
+                  <TextField fx:id="txtConsumidor" editable="false" prefHeight="25.0" prefWidth="160.0">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Label text="Tiempo restante" />
+                  <TextField fx:id="txtConsumidorRestante">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1040.0">
+               <children>
+                  <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="1040.0" style="-fx-background-color: LIGHTGREEN;" text="BUFFER">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <GridPane prefHeight="100.0" prefWidth="1020.0" VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="1" GridPane.rowIndex="1" />
+                        <Label text="2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="10" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+                        <Label text="9" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                        <Label text="8" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                        <Label text="7" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                        <Label text="6" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <Label text="5" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <Label text="4" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label text="3" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label text="40" GridPane.columnIndex="19" GridPane.rowIndex="3" />
+                        <Label text="39" GridPane.columnIndex="18" GridPane.rowIndex="3" />
+                        <Label text="38" GridPane.columnIndex="17" GridPane.rowIndex="3" />
+                        <Label text="37" GridPane.columnIndex="16" GridPane.rowIndex="3" />
+                        <Label text="36" GridPane.columnIndex="15" GridPane.rowIndex="3" />
+                        <Label text="35" GridPane.columnIndex="14" GridPane.rowIndex="3" />
+                        <Label text="34" GridPane.columnIndex="13" GridPane.rowIndex="3" />
+                        <Label text="33" GridPane.columnIndex="12" GridPane.rowIndex="3" />
+                        <Label text="32" GridPane.columnIndex="11" GridPane.rowIndex="3" />
+                        <Label text="31" GridPane.columnIndex="10" GridPane.rowIndex="3" />
+                        <Label text="30" GridPane.columnIndex="9" GridPane.rowIndex="3" />
+                        <Label text="29" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+                        <Label text="28" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+                        <Label text="27" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                        <Label text="26" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <Label text="25" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <Label text="24" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <Label text="23" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label text="22" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="21" GridPane.rowIndex="3" />
+                        <Label text="20" GridPane.columnIndex="19" GridPane.rowIndex="1" />
+                        <Label text="19" GridPane.columnIndex="18" GridPane.rowIndex="1" />
+                        <Label text="18" GridPane.columnIndex="17" GridPane.rowIndex="1" />
+                        <Label text="17" GridPane.columnIndex="16" GridPane.rowIndex="1" />
+                        <Label text="16" GridPane.columnIndex="15" GridPane.rowIndex="1" />
+                        <Label text="15" GridPane.columnIndex="14" GridPane.rowIndex="1" />
+                        <Label text="14" GridPane.columnIndex="13" GridPane.rowIndex="1" />
+                        <Label text="13" GridPane.columnIndex="12" GridPane.rowIndex="1" />
+                        <Label text="12" GridPane.columnIndex="11" GridPane.rowIndex="1" />
+                        <Label text="11" GridPane.columnIndex="10" GridPane.rowIndex="1" />
+                        <TextField fx:id="txt1" alignment="CENTER" editable="false" />
+                        <TextField fx:id="txt2" alignment="CENTER" editable="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="txt3" alignment="CENTER" editable="false" GridPane.columnIndex="2" />
+                        <TextField fx:id="txt4" alignment="CENTER" editable="false" GridPane.columnIndex="3" />
+                        <TextField fx:id="txt5" alignment="CENTER" editable="false" GridPane.columnIndex="4" />
+                        <TextField fx:id="txt6" alignment="CENTER" editable="false" GridPane.columnIndex="5" />
+                        <TextField fx:id="txt7" alignment="CENTER" editable="false" GridPane.columnIndex="6" />
+                        <TextField fx:id="txt8" alignment="CENTER" editable="false" GridPane.columnIndex="7" />
+                        <TextField fx:id="txt9" alignment="CENTER" editable="false" GridPane.columnIndex="8" />
+                        <TextField fx:id="txt10" alignment="CENTER" editable="false" GridPane.columnIndex="9" />
+                        <TextField fx:id="txt11" alignment="CENTER" editable="false" GridPane.columnIndex="10" />
+                        <TextField fx:id="txt12" alignment="CENTER" editable="false" GridPane.columnIndex="11" />
+                        <TextField fx:id="txt13" alignment="CENTER" editable="false" GridPane.columnIndex="12" />
+                        <TextField fx:id="txt14" alignment="CENTER" editable="false" GridPane.columnIndex="13" />
+                        <TextField fx:id="txt15" alignment="CENTER" editable="false" GridPane.columnIndex="14" />
+                        <TextField fx:id="txt16" alignment="CENTER" editable="false" GridPane.columnIndex="15" />
+                        <TextField fx:id="txt17" alignment="CENTER" editable="false" GridPane.columnIndex="16" />
+                        <TextField fx:id="txt18" alignment="CENTER" editable="false" GridPane.columnIndex="17" />
+                        <TextField fx:id="txt19" alignment="CENTER" editable="false" GridPane.columnIndex="18" />
+                        <TextField fx:id="txt20" alignment="CENTER" editable="false" GridPane.columnIndex="19" />
+                        <TextField fx:id="txt21" alignment="CENTER" editable="false" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt22" alignment="CENTER" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt23" alignment="CENTER" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt24" alignment="CENTER" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt25" alignment="CENTER" editable="false" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt26" alignment="CENTER" editable="false" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt27" alignment="CENTER" editable="false" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt28" alignment="CENTER" editable="false" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt29" alignment="CENTER" editable="false" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt30" alignment="CENTER" editable="false" GridPane.columnIndex="9" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt31" alignment="CENTER" editable="false" GridPane.columnIndex="10" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt32" alignment="CENTER" editable="false" GridPane.columnIndex="11" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt33" alignment="CENTER" editable="false" GridPane.columnIndex="12" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt34" alignment="CENTER" editable="false" GridPane.columnIndex="13" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt35" alignment="CENTER" editable="false" GridPane.columnIndex="14" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt36" alignment="CENTER" editable="false" GridPane.columnIndex="15" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt37" alignment="CENTER" editable="false" GridPane.columnIndex="16" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt38" alignment="CENTER" editable="false" GridPane.columnIndex="17" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt39" alignment="CENTER" editable="false" GridPane.columnIndex="18" GridPane.rowIndex="2" />
+                        <TextField fx:id="txt40" alignment="CENTER" editable="false" GridPane.columnIndex="19" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="580.0">
+               <children>
+                  <Button fx:id="btnIniciar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#iniciar" prefHeight="25.0" prefWidth="100.0" text="Iniciar" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="10.0" top="10.0" />
+   </padding>
+</AnchorPane>
