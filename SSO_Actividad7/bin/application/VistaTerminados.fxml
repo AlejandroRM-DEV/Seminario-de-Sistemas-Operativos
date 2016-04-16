@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane hgap="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="1010.0" vgap="20.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControladorVistaTerminados">
+  <children>
+    <VBox maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" prefWidth="400.0" spacing="7.0" GridPane.rowIndex="0">
+         <children>
+            <TableView fx:id="tabla" prefHeight="375.0" prefWidth="982.0">
+              <columns>
+                <TableColumn fx:id="id" editable="false" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" resizable="false" sortable="false" text="ID" />
+                <TableColumn fx:id="operacion" editable="false" prefWidth="200.0" resizable="false" sortable="false" text="Operación" />
+                  <TableColumn fx:id="estado" editable="false" prefWidth="100.0" resizable="false" sortable="false" text="Estado" />
+                  <TableColumn fx:id="bloqueo" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="T. Bloqueo" />
+                  <TableColumn fx:id="restante" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="T. CPU Res." />
+                  <TableColumn fx:id="llegada" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="T. Llegada" />
+                  <TableColumn fx:id="finalizacion" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="T. Finalización" />
+                  <TableColumn fx:id="retorno" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="T. Retorno" />
+                  <TableColumn fx:id="espera" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="T. Espera" />
+                  <TableColumn fx:id="servicio" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="T. Servicio " />
+                  <TableColumn fx:id="respuesta" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="T. Respuesta" />
+              </columns>
+            </TableView>
+         </children>
+    </VBox>
+    <HBox maxHeight="-Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" GridPane.rowIndex="1">
+      <children>
+        <HBox alignment="CENTER">
+          <HBox.margin>
+            <Insets />
+          </HBox.margin>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+          <children>
+            <Button fx:id="okButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="80.0" mnemonicParsing="false" onAction="#cerrar" prefHeight="25.0" prefWidth="180.0" text="Ok" HBox.hgrow="NEVER">
+              <HBox.margin>
+                <Insets left="14.0" />
+              </HBox.margin>
+            </Button>
+          </children>
+        </HBox>
+      </children>
+    </HBox>
+  </children>
+  <columnConstraints>
+    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="+Infinity" minWidth="-Infinity" />
+  </columnConstraints>
+  <padding>
+    <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+  </padding>
+  <rowConstraints>
+    <RowConstraints maxHeight="+Infinity" minHeight="-Infinity" valignment="CENTER" vgrow="ALWAYS" />
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="NEVER" />
+  </rowConstraints>
+</GridPane>
