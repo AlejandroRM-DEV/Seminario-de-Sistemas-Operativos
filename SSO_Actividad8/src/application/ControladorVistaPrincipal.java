@@ -1,9 +1,17 @@
 package application;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,6 +102,7 @@ public class ControladorVistaPrincipal{
 	@FXML private TextField txtOpA;
 	@FXML private TextField txtOpB;
 	@FXML private TextField txtTamano;
+	@FXML private TextField txtSuspendidos;
 	@FXML private TextField txtReloj;
 	@FXML private TextField txtOperacion;
 	@FXML private TextField txtPendientes;
@@ -139,14 +148,39 @@ public class ControladorVistaPrincipal{
 
 	private Marco marcos[];
 
-	private void configurarLogger(){
-		logger = Logger.getGlobal();
-		logger.setLevel(Level.INFO);
-		logger.setUseParentHandlers(false);
+	private Queue<Integer[]> objectList;
+	private int position;
+	private int contadorBloquear;
 
-		handler = new ConsoleHandler();
-		handler.setLevel(Level.INFO);
-		logger.addHandler(handler);
+	private ReentrantLock lock = new ReentrantLock();
+
+	private int calcularMarcos(int tamano){
+		int necesarios = tamano / 5;
+		necesarios += (tamano % 5 == 0)?0:1;
+		return necesarios;
+	}
+
+	private void cambiaColor(int id, Color color){
+		for ( Marco m : marcos ) {
+			if ( m.getId() == id ) {
+				m.setStyle(color);
+			}
+		}
+	}
+
+	private void cargarNuevos(){
+		while ( !procesosNuevos.isEmpty()
+				&& (marcosDisponibles >= calcularMarcos(procesosNuevos.peek().getTamano())) ) {
+			Proceso p = procesosNuevos.poll();
+			procesosListos.add(p);
+			llenarMarcos(p.getTamano(), p.getId(), Color.AZUL);
+			Platform.runLater(() -> {
+				txtPendientes.setText(Integer.toString(procesosNuevos.size()));
+				observableListListos.add(p);
+			});
+			p.setTiempoLlegada(reloj);
+			p.setEstado(Estado.LISTO);
+		}
 	}
 
 	public void configurar(ManejadorVentanas manejador, Queue<Proceso> procesos, int quantum){
@@ -185,17 +219,33 @@ public class ControladorVistaPrincipal{
 		marcos[0].setProgress(1);
 		marcos[0].setStyle(Color.NEGRO);
 		marcos[0].setText("S. O.");
-		marcos[0].setId(Integer.MAX_VALUE);
+		marcos[0].setId(Integer.MIN_VALUE);
+		marcos[0].setLibre(false);
 		marcos[1].setProgress(1);
 		marcos[1].setStyle(Color.NEGRO);
 		marcos[1].setText("S. O.");
-		marcos[1].setId(Integer.MAX_VALUE);
+		marcos[1].setId(Integer.MIN_VALUE);
+		marcos[1].setLibre(false);
 		marcosDisponibles = 26;
+		new File("procesos.ser").delete();
+		position = 0;
+		contadorBloquear = 0;
+		objectList = new ArrayDeque<>();
 		hilos();
 		configurarTablaListos();
 		configurarTablaBloqueados();
 		configurarTablaTerminados();
 		configurarLogger();
+	}
+
+	private void configurarLogger(){
+		logger = Logger.getGlobal();
+		logger.setLevel(Level.INFO);
+		logger.setUseParentHandlers(false);
+
+		handler = new ConsoleHandler();
+		handler.setLevel(Level.INFO);
+		logger.addHandler(handler);
 	}
 
 	private void configurarTablaBloqueados(){
@@ -221,7 +271,7 @@ public class ControladorVistaPrincipal{
 				&& (marcosDisponibles >= calcularMarcos(procesosNuevos.peek().getTamano())) ) {
 			Proceso p = procesosNuevos.poll();
 			procesosListos.add(p);
-			llenarMarcos(p.getTamano(), p.getId());
+			llenarMarcos(p.getTamano(), p.getId(), Color.AZUL);
 			p.setTiempoLlegada(reloj);
 			p.setEstado(Estado.LISTO);
 		}
@@ -234,43 +284,6 @@ public class ControladorVistaPrincipal{
 		}
 		actualizadorGUI.start();
 		pausar = false;
-	}
-
-	private int calcularMarcos(int tamano){
-		int necesarios = tamano / 5;
-		necesarios += (tamano % 5 == 0)?0:1;
-		return necesarios;
-	}
-
-	private void llenarMarcos(int tamano, int id){
-		int paginas = tamano;
-		int necesarios = calcularMarcos(tamano);
-
-		if ( marcosDisponibles >= necesarios ) {
-			for ( int i = 0; i < 28 && necesarios > 0; i++ ) {
-				if ( marcos[i].isLibre() ) {
-					if ( paginas >= 5 ) {
-						marcos[i].setProgress(1);
-					} else {
-						marcos[i].setProgress((double) paginas / 5);
-					}
-					marcos[i].setStyle(Color.AZUL);
-					marcos[i].setText("" + id);
-					marcos[i].setId(id);
-					paginas -= 5;
-					necesarios--;
-					marcosDisponibles--;
-				}
-			}
-		}
-	}
-
-	private void cambiaColor(int id, Color color){
-		for ( Marco m : marcos ) {
-			if ( m.getId() == id ) {
-				m.setStyle(color);
-			}
-		}
 	}
 
 	@FXML
@@ -299,11 +312,12 @@ public class ControladorVistaPrincipal{
 			public void handle(KeyEvent event){
 				if ( (event.getEventType() == KeyEvent.KEY_PRESSED) && !consumir ) {
 					consumir = true;
-
+					lock.lock();
 					if ( (!finalizado) && (procesoActual.getEstado() != Estado.TERMINADO) ) {
 						switch ( event.getCode() ) {
 						case I:
 							if ( !pausar && (procesoActual.getOperacion() != Operacion.INDEFINIDA) ) {
+								contadorBloquear++;
 								procesoBloqueo = true;
 							}
 							break;
@@ -336,14 +350,71 @@ public class ControladorVistaPrincipal{
 								pausar = false;
 							}
 							break;
+						case S:
+							if ( !pausar && !procesosBloqueados.isEmpty() ) {
+								try {
+									ByteArrayOutputStream bos = new ByteArrayOutputStream();
+									ObjectOutput out = new ObjectOutputStream(bos);
+									Proceso p = procesosBloqueados.poll();
+									out.writeObject(p);
+									out.close();
+									liberarMarco(p.getId());
+									cargarNuevos();
+									byte[] buf = bos.toByteArray();
+									Integer[] objectInfo = new Integer[2];
+									objectInfo[0] = position;
+									objectInfo[1] = buf.length;
+									objectList.add(objectInfo);
+
+									RandomAccessFile tmpFile = new RandomAccessFile("procesos.ser", "rw");
+									tmpFile.seek(position);
+									tmpFile.write(buf);
+									tmpFile.close();
+									position += buf.length;
+									txtSuspendidos.setText(""+objectList.size());
+								} catch ( IOException e ) {
+									e.printStackTrace();
+								}
+							}
+							break;
+						case R:
+							if ( !pausar && !objectList.isEmpty() ) {
+								Integer[] objectInfo = (Integer[]) objectList.peek();
+								byte[] buf = new byte[objectInfo[1]];
+
+								try {
+									RandomAccessFile tmpFile = new RandomAccessFile("procesos.ser", "rw");
+									tmpFile.seek(objectInfo[0]);
+									tmpFile.readFully(buf);
+									tmpFile.close();
+									ByteArrayInputStream bis = new ByteArrayInputStream(buf);
+									ObjectInputStream ois = new ObjectInputStream(bis);
+									Proceso p = (Proceso) ois.readObject();
+									ois.close();
+									if ( marcosDisponibles >= calcularMarcos(p.getTamano()) ) {
+										procesosBloqueados.add(p);
+										llenarMarcos(p.getTamano(), p.getId(), Color.AMARILLO);
+										objectList.poll();
+										txtSuspendidos.setText(""+objectList.size());
+									} else {
+										logger.info("Memoria insuficiente para restablecer [PID: " + p.getId() + "]");
+									}
+								} catch ( IOException e ) {
+									e.printStackTrace();
+								} catch ( ClassNotFoundException e ) {
+									e.printStackTrace();
+								}
+							}
+							break;
 						default:
 							break;
 						}
 						try {
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						} catch ( InterruptedException e ) {
 						}
 					}
+					lock.unlock();
 				} else if ( event.getEventType() == KeyEvent.KEY_RELEASED ) {
 					consumir = false;
 				}
@@ -391,6 +462,7 @@ public class ControladorVistaPrincipal{
 
 				while ( !finalizado ) {
 					if ( !pausar ) {
+						lock.lock();
 						pausar = true;
 						revisarEventos();
 						actualizaGUI();
@@ -401,6 +473,7 @@ public class ControladorVistaPrincipal{
 						revisarProcesosBloqueados();
 						reloj++;
 						pausar = false;
+						lock.unlock();
 					}
 					try {
 						Thread.sleep(1000);
@@ -429,7 +502,7 @@ public class ControladorVistaPrincipal{
 					procesosListos.add(nuevo);
 					nuevo.setTiempoLlegada(reloj);
 					nuevo.setEstado(Estado.LISTO);
-					llenarMarcos(nuevo.getTamano(), nuevo.getId());
+					llenarMarcos(nuevo.getTamano(), nuevo.getId(), Color.AZUL);
 				} else {
 					procesosNuevos.add(nuevo);
 					Platform.runLater(() -> {
@@ -445,7 +518,7 @@ public class ControladorVistaPrincipal{
 			private void iniciaSiguienteProceso(){
 				if ( !procesosListos.isEmpty() ) {
 					procesoActual = procesosListos.poll();
-				} else if ( !procesosBloqueados.isEmpty() ) {
+				} else if ( !procesosBloqueados.isEmpty() || !objectList.isEmpty() ) {
 					procesoActual = new Proceso(INFINITO, Operacion.INDEFINIDA, INFINITO, 0, 0, 0);
 				} else {
 					finalizado = true;
@@ -487,14 +560,17 @@ public class ControladorVistaPrincipal{
 				if ( procesoNuevo ) {
 					crearNuevoProceso();
 				} else if ( procesoBloqueo ) {
-					if ( procesoActual.getTiempoRestante() > 0 ) {
-						procesoActual.setEstado(Estado.BLOQUEADO);
-						procesosBloqueados.add(procesoActual);
-						cambiaColor(procesoActual.getId(), Color.AMARILLO);
-						iniciaSiguienteProceso();
-					} else {
-						logger.info("El proceso que se intentó bloquear [PID: " + procesoActual.getId()
-								+ "] recien habia terminado");
+					while ( contadorBloquear > 0 && (procesoActual.getOperacion() != Operacion.INDEFINIDA) ) {
+						if ( procesoActual.getTiempoRestante() > 0 ) {
+							procesoActual.setEstado(Estado.BLOQUEADO);
+							procesosBloqueados.add(procesoActual);
+							cambiaColor(procesoActual.getId(), Color.AMARILLO);
+							iniciaSiguienteProceso();
+						} else {
+							logger.info("El proceso que se intentó bloquear [PID: " + procesoActual.getId()
+									+ "] recien habia terminado");
+						}
+						contadorBloquear--;
 					}
 					procesoBloqueo = false;
 				} else if ( procesoError ) {
@@ -529,7 +605,7 @@ public class ControladorVistaPrincipal{
 
 			private void revisarProcesosBloqueados(){
 				for ( Proceso p : procesosBloqueados ) {
-					if ( p.getTiempoBloqueado() >= 7 || (p.getEstado() != Estado.BLOQUEADO) ) {
+					if ( p.getTiempoBloqueado() >= 16 || (p.getEstado() != Estado.BLOQUEADO) ) {
 						cambiaColor(p.getId(), Color.AZUL);
 						procesosListos.add(p);
 						procesosBloqueados.remove(p);
@@ -555,18 +631,7 @@ public class ControladorVistaPrincipal{
 				});
 				liberarMarco(procesoActual.getId());
 
-				while ( !procesosNuevos.isEmpty()
-						&& (marcosDisponibles >= calcularMarcos(procesosNuevos.peek().getTamano())) ) {
-					Proceso p = procesosNuevos.poll();
-					procesosListos.add(p);
-					llenarMarcos(p.getTamano(), p.getId());
-					Platform.runLater(() -> {
-						txtPendientes.setText(Integer.toString(procesosNuevos.size()));
-						observableListListos.add(p);
-					});
-					p.setTiempoLlegada(reloj);
-					p.setEstado(Estado.LISTO);
-				}
+				cargarNuevos();
 				if ( !procesosNuevos.isEmpty() ) {
 					Proceso p = procesosNuevos.peek();
 					Platform.runLater(() -> {
@@ -582,18 +647,40 @@ public class ControladorVistaPrincipal{
 				iniciaSiguienteProceso();
 			}
 
-			private void liberarMarco(int id){
-				cambiaColor(procesoActual.getId(), Color.BLANCO);
-				for ( Marco m : marcos ) {
-					if ( m.getId() == id ) {
-						m.liberar();
-						marcosDisponibles++;
-					}
-				}
-			}
-
 		});
 
 		actualizadorGUI.setDaemon(true);
+	}
+
+	private void liberarMarco(int id){
+		for ( Marco m : marcos ) {
+			if ( m.getId() == id ) {
+				m.liberar();
+				marcosDisponibles++;
+			}
+		}
+	}
+
+	private void llenarMarcos(int tamano, int id, Color color){
+		int paginas = tamano;
+		int necesarios = calcularMarcos(tamano);
+
+		if ( marcosDisponibles >= necesarios ) {
+			for ( int i = 0; i < 28 && necesarios > 0; i++ ) {
+				if ( marcos[i].isLibre() ) {
+					if ( paginas >= 5 ) {
+						marcos[i].setProgress(1);
+					} else {
+						marcos[i].setProgress((double) paginas / 5);
+					}
+					marcos[i].setStyle(color);
+					marcos[i].setText("" + id);
+					marcos[i].setId(id);
+					paginas -= 5;
+					necesarios--;
+					marcosDisponibles--;
+				}
+			}
+		}
 	}
 }
